@@ -1,0 +1,19 @@
+<html>
+<head>
+<title>Views from Faraday</title>
+<script>
+setInterval(function() {
+    var myImageElement = document.getElementById('myImage');
+    myImageElement.src = 'curPicture.jpg?rand=' + Math.random();
+}, 20000);
+</script>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<nav>
+    <li><a href="/timelapse">Daily Timelapses</a></li>
+    <li><a href="/adminPanel.html">Admin Panel</a></li>
+</nav>
+<center><img id="myImage" src="curPicture.jpg"></img></center>
+</body>
+</html>
