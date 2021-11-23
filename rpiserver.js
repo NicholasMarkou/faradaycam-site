@@ -1,16 +1,16 @@
 const express = require( 'express' ),
       env = require('dotenv').config(),
       cookie = require('cookie-session'),
+      serveIndex = require('serve-index'),
       spawn = require("child_process").spawn;
       
 const app = express();
 const PORT = 80;
-const dir = process.env.DIREC;
-const { ChildProcess } = require('child_process');
-const serveIndex = require('serve-index');
+const dir = process.env.DIREC+"/public/";
+const lapse = process.env.DIREC
 app.use( express.urlencoded({ extended:true }) )
-app.use('/timelapse', serveIndex(dir + '/timelapse'));
-app.use('/images', serveIndex(dir + '/images'));
+app.use('/timelapse', serveIndex(lapse + '/timelapse'));
+app.use('/images', serveIndex(lapse + '/images'));
 
 app.use(cookie({
     name: 'session',
@@ -39,7 +39,7 @@ app.post( '/login', (req,res)=> {
 
 app.post('/adminCompileLapse', (req,res)=> {
     args=[
-	'-framerate', req.body.fps,
+	'-framerate', req.body.frameRate.toString(),
 	'-pattern_type','glob',
 	'-i','/home/pi/website/images/*.jpg',
 	'-c:v','libx264',
