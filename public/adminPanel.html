@@ -1,6 +1,14 @@
 <html>
 <head>
 <title>Faraday Admin Panel</title>
+<script src='/socket.io/socket.io.js'></script>
+<script>
+  const socket = io();
+  socket.on('cmd', (data) => {
+    document.getElementById('console').innerHTML = data;
+  })
+</script>
+
 </head>
 <body>
     <h1>Compile Timelapse</h1>
@@ -11,6 +19,7 @@
         <input type="submit" value="Create Timelapse">
       </form>
       <p>180 images/hr</p>
+      <p id="console"></p>
     <br>
 </body>
 </html>

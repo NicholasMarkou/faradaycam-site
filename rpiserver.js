@@ -7,6 +7,8 @@ const express = require( 'express' ),
       
 const app = express();
 const PORT = 80;
+const server = http.createServer(app);
+const io = require('socket.io')(server)
 const dir = process.env.DIREC+"/public/";
 app.use( express.urlencoded({ extended:true }) )
 app.use('/timelapse', serveIndex(dir+'/timelapse'));
@@ -46,9 +48,18 @@ app.post('/adminCompileLapse', (req,res)=> {
   '-frames:v', (req.body.maxFrames === "" ? '180' : req.body.maxFrames),
 	'-crf','20','/home/pi/website/public/timelapse/'+ req.body.nameOfLapse +'.mp4']
 
-    spawn('ffmpeg', args);
-    res.redirect('index.html')
+    let cmd = spawn('ffmpeg', args);
+    io.on('connection', (socket) => {
+      console.log('connected');
+    });
+    cmd.stdout.on('data', (data) => {
+      io.emit('cmd', data);
+    });
+    res.sendStatus(200);
 })
 
 app.use(express.static(dir));
-app.listen(PORT, () => console.log(`Server listening on port: ${PORT}`));
+const listener = server.listen(PORT, () => {
+  console.log("Listening on port " + listener.address().port);
+});
+//app.listen(PORT, () => console.log(`Server listening on port: ${PORT}`));
