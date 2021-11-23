@@ -2,6 +2,7 @@ const express = require( 'express' ),
       env = require('dotenv').config(),
       cookie = require('cookie-session'),
       serveIndex = require('serve-index'),
+      fs = requires('fs'),
       spawn = require("child_process").spawn;
       
 const app = express();
@@ -43,6 +44,7 @@ app.post('/adminCompileLapse', (req,res)=> {
 	'-pattern_type','glob',
 	'-i','/home/pi/website/images/*.jpg',
 	'-c:v','libx264',
+  '-frames:v', (req.body.maxFrames === "" ? '180' : req.body.maxFrames),
 	'-crf','20','/home/pi/website/timelapse/'+ req.body.nameOfLapse +'.mp4']
 
     spawn('ffmpeg', args);
