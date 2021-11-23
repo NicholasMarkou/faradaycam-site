@@ -2,4 +2,5 @@
 node_modules/
 /timelapse
 /images
-curPicture.jpg
+/public/curPicture.jpg
+/public/curPicture.jpg~
