@@ -5,9 +5,8 @@ const express = require( 'express' ),
       
 const app = express();
 const PORT = 80;
-const dir = '/home/pi/website/'
+const dir = process.env.DIREC;
 const { ChildProcess } = require('child_process');
-//const dir = 'C:/Users/Nicholas/git/faradaycam-website'
 const serveIndex = require('serve-index');
 app.use( express.urlencoded({ extended:true }) )
 app.use('/timelapse', serveIndex(dir + '/timelapse'));
