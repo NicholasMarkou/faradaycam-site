@@ -2,7 +2,7 @@ const express = require( 'express' ),
       env = require('dotenv').config(),
       cookie = require('cookie-session'),
       serveIndex = require('serve-index'),
-      fs = requires('fs'),
+      fs = require('fs'),
       spawn = require("child_process").spawn;
       
 const app = express();
