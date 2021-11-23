@@ -8,10 +8,9 @@ const express = require( 'express' ),
 const app = express();
 const PORT = 80;
 const dir = process.env.DIREC+"/public/";
-const lapse = process.env.DIREC
 app.use( express.urlencoded({ extended:true }) )
-app.use('/timelapse', serveIndex(lapse + '/timelapse'));
-app.use('/images', serveIndex(lapse + '/images'));
+app.use('/timelapse', serveIndex(dir+'/timelapse'));
+app.use('/images', serveIndex(dir + '/images'));
 
 app.use(cookie({
     name: 'session',
@@ -42,10 +41,10 @@ app.post('/adminCompileLapse', (req,res)=> {
     args=[
 	'-framerate', req.body.frameRate.toString(),
 	'-pattern_type','glob',
-	'-i','/home/pi/website/images/*.jpg',
+	'-i','/home/pi/website/public/images/*.jpg',
 	'-c:v','libx264',
   '-frames:v', (req.body.maxFrames === "" ? '180' : req.body.maxFrames),
-	'-crf','20','/home/pi/website/timelapse/'+ req.body.nameOfLapse +'.mp4']
+	'-crf','20','/home/pi/website/public/timelapse/'+ req.body.nameOfLapse +'.mp4']
 
     spawn('ffmpeg', args);
     res.redirect('index.html')

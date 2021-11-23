@@ -1,6 +1,6 @@
 .env
 node_modules/
-/timelapse
-/images
+/public/timelapse
+/public/images
 /public/curPicture.jpg
 /public/curPicture.jpg~
