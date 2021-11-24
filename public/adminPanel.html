@@ -21,12 +21,12 @@ const submit = function( e ) {
       body: data
     })
 }
-
+const socket = io().connect('http://faradaycam.dyn.wpi.edu');
 window.onload = function() {
     const button = document.querySelector( 'button' )
     button.onclick = submit
+    socket.emit('getTemp','');
     
-    const socket = io().connect('http://faradaycam.dyn.wpi.edu');
     socket.on('cmd', (data) => {
       document.getElementById('console').innerHTML = data + document.getElementById('console').innerHTML;
       if (data === 'done compiling') document.getElementById('console').innerHTML = data;
@@ -35,7 +35,7 @@ window.onload = function() {
 
 setInterval(function(){
     socket.emit('getTemp', ''); 
-}, 10000);
+}, 5000);
 
 socket.on('temperature', (data) => {
   document.getElementById('temperature').innerHTML = data;
