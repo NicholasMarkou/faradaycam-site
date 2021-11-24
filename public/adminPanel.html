@@ -28,10 +28,19 @@ window.onload = function() {
     
     const socket = io().connect('http://faradaycam.dyn.wpi.edu');
     socket.on('cmd', (data) => {
-	document.getElementById('console').innerHTML = data + document.getElementById('console').innerHTML;
-	if (data === 'done compiling') document.getElementById('console').innerHTML = data;
+      document.getElementById('console').innerHTML = data + document.getElementById('console').innerHTML;
+      if (data === 'done compiling') document.getElementById('console').innerHTML = data;
   })
 }
+
+setInterval(function(){
+    socket.emit('getTemp', ''); 
+}, 10000);
+
+socket.on('temperature', (data) => {
+  document.getElementById('temperature').innerHTML = data;
+})
+
 </script>
 <style>
 pre { 
@@ -42,7 +51,8 @@ pre {
 
 </head>
 <body>
-    <h1>Compile Timelapse</h1>
+    <h1 id="temperature"></h1>
+    <h2>Compile Timelapse</h2>
     <form>
         <input type="text" name="nameOfLapse" id="nameOfLapse" placeholder="myTimeLapse">
         <input type="text" name="frameRate" id="frameRate" value="45">

@@ -44,6 +44,17 @@ app.post( '/login', (req,res)=> {
 
 io.on('connection', (socket) => {
 	console.log('connected');
+
+  socket.on('getTemp', () => {
+    let cmd = spawn('/opt/vc/bin/vcgencmd', ['measure_temp'])
+    let str=""
+    cmd.stdout.on('data', (data) => {
+      str+=data;
+    });
+    cmd.stdout.on('close', (data) => {
+      io.emit('temperature', str);
+    });
+  })
 	
 	socket.on('disconnect', () => {
 		console.log('disconnected');
