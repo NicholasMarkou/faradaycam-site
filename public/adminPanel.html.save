@@ -1,8 +1,12 @@
 <html>
 <head>
 <title>Faraday Admin Panel</title>
-<script src="http://faradaycam.dyn.wpi.edu/socket.io/socket.io.js"></script>
+<script src="http://faradaycam.dyn.wpi.edu:3000/socket.io/socket.io.js"></script>
 <script>
+  const socket = io();  socket.on('cmd', (data) => {
+    document.getElementById('console').innerHTML = data;
+  })
+
 const submit = function( e ) {
     // prevent default form action from being carried out
     e.preventDefault()
@@ -26,31 +30,25 @@ window.onload = function() {
     const button = document.querySelector( 'button' )
     button.onclick = submit
     
-    const socket = io().connect('http://faradaycam.dyn.wpi.edu');
+    const socket = io();
     socket.on('cmd', (data) => {
-	document.getElementById('console').innerHTML = data + document.getElementById('console').innerHTML;
-	if (data === 'done compiling') document.getElementById('console').innerHTML = data;
+	document.getElementById('console').innerHTML = data;
   })
 }
+
 </script>
-<style>
-pre { 
-    white-space: pre-wrap; 
-    word-break: break-word;
-}
-</style>
 
 </head>
 <body>
     <h1>Compile Timelapse</h1>
     <form>
-        <input type="text" name="nameOfLapse" id="nameOfLapse" placeholder="myTimeLapse">
-        <input type="text" name="frameRate" id="frameRate" value="45">
-        <input type="text" name="maxFrames" id="maxFrames" placeholder="Max Frames">
+        <input type="text" name="nameOfLapse" placeholder="myTimeLapse">
+        <input type="text" name="frameRate" value="45">
+        <input type="text" name="maxFrames" placeholder="Max Frames">
       </form>
       <button>Submit</button>
       <p>180 images/hr</p>
-      <pre id="console"></pre>
+      <p id="console"></p>
     <br>
 </body>
 </html>
